@@ -3,6 +3,7 @@ import os, string, random
 
 USER_PROJECT_DIR = "/home/admin"
 REPO_DIR = f"{USER_PROJECT_DIR}/repository"
+JOBS_DIR = f"{USER_PROJECT_DIR}/jobs"
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -26,21 +27,48 @@ def create_inputfile(item: UploadInputfile):
     return {"ok": True, "filePath": file_path}
 
 
+def read_files(path: str):
+    result = []
+    for file in os.listdir(path):
+        d = os.path.join(path, file)
+        if os.path.isdir(d):
+            result.append({"name": file, "type": "dir"})
+        else:
+            result.append({"name": file, "type": "file"})
+    return result
+
+
 def read_inputfiles():
-    return {"ok": True, "filePath": REPO_DIR, "fileLists": os.listdir(REPO_DIR)}
+    return {"ok": True, "filePath": REPO_DIR, "fileLists": read_files(REPO_DIR)}
 
 
-def read_inputfile(inputfileName: str):
-    inputfile_path = f"{REPO_DIR}/{inputfileName}"
-    # print(os.path.exists(inputfile_path))
-    if not os.path.exists(inputfile_path):
+def read_resultfiles(jobID: str):
+    return {
+        "ok": True,
+        "filePath": REPO_DIR,
+        "fileLists": read_files(f"{JOBS_DIR}/{jobID}"),
+    }
+
+
+def read_file(filePath: str):
+    if not os.path.exists(filePath):
         return {"ok": False, "message": "file doesn't exist"}
 
-    f = open(inputfile_path, "r")
+    f = open(filePath, "r")
     file_content = f.read()
     f.close()
     return {
         "ok": True,
-        "filePath": inputfile_path,
+        "filePath": filePath,
         "content": file_content,
     }
+
+
+def read_inputfile(inputfileName: str):
+    inputfile_path = f"{REPO_DIR}/{inputfileName}"
+    return read_file(inputfile_path)
+
+
+def read_resultfile(resultfileName: str, jobID: str):
+    resultfile_path = f"{JOBS_DIR}/{jobID}/{resultfileName}"
+    return read_file(resultfile_path)
