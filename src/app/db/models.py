@@ -1,5 +1,39 @@
-from typing import List, Union
+from typing import List, Union, Optional
+from enum import Enum
 from pydantic import BaseModel
+
+
+class CreateInputfile(BaseModel):
+    ok: bool
+    filePath: str
+
+
+class FileTypeEnum(str, Enum):
+    dir = "dir"
+    file = "file"
+
+
+class FileTypeAndName(BaseModel):
+    type: FileTypeEnum
+    name: str
+
+
+class LoadFileList(BaseModel):
+    ok: bool
+    filePath: Optional[str] = None
+    fileLists: Optional[List[FileTypeAndName]] = None
+    message: Optional[float] = None
+
+
+class LoadFile(BaseModel):
+    ok: bool
+    filePath: Optional[str] = None
+    content: Optional[str] = None
+    message: Optional[float] = None
+
+
+class CreatJob(BaseModel):
+    ok: bool
 
 
 class UploadInputfile(BaseModel):

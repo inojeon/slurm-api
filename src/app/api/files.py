@@ -21,8 +21,8 @@ async def read_input_files():
 async def read_input_file(inputfileName: str):
     result = read_inputfile(inputfileName)
     print(result)
-    if not result.get("ok"):
+    if not result.ok:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=result.get("message")
+            status_code=status.HTTP_404_NOT_FOUND, detail=result.message
         )
     return result

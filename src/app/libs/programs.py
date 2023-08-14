@@ -29,9 +29,6 @@ def load_program_info(programName: str) -> Union[ProgramDetail, None]:
 
 
 def creat_job_script(program: ProgramDetail, jobInfo: SubmitJob) -> Union[str, None]:
-    print(jobInfo.jobName)
-    print(program.name)
-
     # add slurm options
     script = "#!/bin/bash\n"
     script += f"#SBATCH --job-name={jobInfo.jobName}\n"
@@ -52,11 +49,11 @@ def creat_job_script(program: ProgramDetail, jobInfo: SubmitJob) -> Union[str, N
             content=jobInfo.inputParameter,
         )
         inpFileGenResult = create_inputfile(newInpFileInfo)
-        if inpFileGenResult["ok"]:
-            script += f"-inp {inpFileGenResult['filePath']} "
+        if inpFileGenResult.ok:
+            script += f"-inp {inpFileGenResult.filePath} "
     script += "\n\n"
-
-    script += program.postSrcipt
+    if program.postSrcipt:
+        script += program.postSrcipt
     script += "\n"
 
     return script

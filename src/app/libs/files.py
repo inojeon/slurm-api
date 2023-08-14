@@ -1,4 +1,10 @@
-from app.db.models import UploadInputfile
+from app.db.models import (
+    UploadInputfile,
+    CreateInputfile,
+    LoadFileList,
+    LoadFile,
+    FileTypeAndName,
+)
 import os, string, random
 
 USER_PROJECT_DIR = "/home/admin"
@@ -10,7 +16,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return "".join(random.choice(chars) for _ in range(size))
 
 
-def create_inputfile(item: UploadInputfile):
+def create_inputfile(item: UploadInputfile) -> CreateInputfile:
     if not os.path.exists(REPO_DIR):
         os.makedirs(REPO_DIR)
     file_path = f"{REPO_DIR}/{item.name}"
@@ -24,51 +30,46 @@ def create_inputfile(item: UploadInputfile):
     f.write(item.content)
     f.close()
 
-    return {"ok": True, "filePath": file_path}
+    return CreateInputfile(ok=True, filePath=file_path)
 
 
-def read_files(path: str):
+def read_files(path: str) -> [FileTypeAndName]:
     result = []
     for file in os.listdir(path):
         d = os.path.join(path, file)
         if os.path.isdir(d):
-            result.append({"name": file, "type": "dir"})
+            result.append(FileTypeAndName(name=file, type="dir"))
         else:
-            result.append({"name": file, "type": "file"})
+            result.append(FileTypeAndName(name=file, type="file"))
     return result
 
 
 def read_inputfiles():
-    return {"ok": True, "filePath": REPO_DIR, "fileLists": read_files(REPO_DIR)}
+    return LoadFileList(ok=True, fileLists=read_files(REPO_DIR), filePath=REPO_DIR)
 
 
 def read_resultfiles(jobID: str):
-    return {
-        "ok": True,
-        "filePath": REPO_DIR,
-        "fileLists": read_files(f"{JOBS_DIR}/{jobID}"),
-    }
+    return LoadFileList(
+        ok=True, fileLists=read_files(f"{JOBS_DIR}/{jobID}"), filePath=REPO_DIR
+    )
 
 
-def read_file(filePath: str):
+def read_file(filePath: str) -> LoadFile:
     if not os.path.exists(filePath):
-        return {"ok": False, "message": "file doesn't exist"}
+        return LoadFile(ok=False, message="file doesn't exist")
 
     f = open(filePath, "r")
-    file_content = f.read()
+    fileContent = f.read()
     f.close()
-    return {
-        "ok": True,
-        "filePath": filePath,
-        "content": file_content,
-    }
+
+    return LoadFile(ok=True, filePath=filePath, content=fileContent)
 
 
-def read_inputfile(inputfileName: str):
+def read_inputfile(inputfileName: str) -> LoadFile:
     inputfile_path = f"{REPO_DIR}/{inputfileName}"
     return read_file(inputfile_path)
 
 
-def read_resultfile(resultfileName: str, jobID: str):
+def read_resultfile(resultfileName: str, jobID: str) -> LoadFile:
     resultfile_path = f"{JOBS_DIR}/{jobID}/{resultfileName}"
     return read_file(resultfile_path)
