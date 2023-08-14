@@ -8,14 +8,14 @@ class UploadInputfile(BaseModel):
 
 
 class InputFile(BaseModel):
-    type: str
+    option: str
     path: str
 
 
 class SubmitJob(BaseModel):
     programName: str
     inputFiles: List[InputFile]
-    inputParameter: str
+    inputParameter: Union[str, None]
     jobName: str
     jobDescription: Union[str, None]
     isParallel: bool = False

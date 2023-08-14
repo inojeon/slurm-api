@@ -1,15 +1,13 @@
 from app.db.models import SubmitJob
 
-from app.libs.programs import load_program_info
+from app.libs.programs import load_program_info, creat_job_script
 
 
-def create_job(item: SubmitJob):
-    program = load_program_info(item.programName)
+def create_job(jobInfo: SubmitJob):
+    program = load_program_info(jobInfo.programName)
     if not program:
         return {"ok": False}
-    print(program)
-    # program_detail_info = load_program_template(
-    #     f"{program['location']}/{program['infoJsonPath']}"
-    # )
-    # print(program_detail_info)
+
+    script_template = creat_job_script(program, jobInfo)
+    print(script_template)
     return {"ok": True}
