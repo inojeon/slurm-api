@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class CreateInputfile(BaseModel):
     ok: bool
-    filePath: str
+    filePath: Optional[str]
 
 
 class FileTypeEnum(str, Enum):
@@ -34,6 +34,7 @@ class LoadFile(BaseModel):
 
 class CreatJob(BaseModel):
     ok: bool
+    slurmJobId: Union[int, None]
 
 
 class UploadInputfile(BaseModel):
@@ -88,6 +89,7 @@ class ProgramDetail(BaseModel):
     name: str
     version: str
     sampleInput: List[SampleInputItem]
+    location: str
     preScript: str
     postSrcipt: str
     slurm: Slurm

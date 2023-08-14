@@ -39,7 +39,10 @@ def creat_job_script(program: ProgramDetail, jobInfo: SubmitJob) -> Union[str, N
     if program.preScript:
         script += f"{program.preScript}\n"
     # if program.shell == "python3":
-    script += f"{program.shell} {program.mainExe} "
+
+    script += f"export PROGRAM_HOME={program.location}\n\n"
+
+    script += f"{program.shell} {program.location}/{program.mainExe} "
 
     for inputFile in jobInfo.inputFiles:
         script += f"{inputFile.option} {inputFile.path} "
@@ -50,7 +53,7 @@ def creat_job_script(program: ProgramDetail, jobInfo: SubmitJob) -> Union[str, N
         )
         inpFileGenResult = create_inputfile(newInpFileInfo)
         if inpFileGenResult.ok:
-            script += f"-inp {inpFileGenResult.filePath} "
+            script += f"--inp {inpFileGenResult.filePath} "
     script += "\n\n"
     if program.postSrcipt:
         script += program.postSrcipt

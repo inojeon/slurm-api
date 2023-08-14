@@ -6,14 +6,24 @@ from app.db.models import (
     FileTypeAndName,
 )
 import os, string, random
-
-USER_PROJECT_DIR = "/home/admin"
-REPO_DIR = f"{USER_PROJECT_DIR}/repository"
-JOBS_DIR = f"{USER_PROJECT_DIR}/jobs"
+from app.db.config import REPO_DIR
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return "".join(random.choice(chars) for _ in range(size))
+
+
+def write_file(file_path: str, content: str) -> bool:
+    if os.path.exists(file_path):
+        file_name = file_path.split(".")[0]
+        file_exe = file_path.split(".")[1]
+        file_path = f"{file_name}-{id_generator()}.{file_exe}"
+
+    f = open(file_path, "w")
+    f.write(content)
+    f.close()
+
+    return True
 
 
 def create_inputfile(item: UploadInputfile) -> CreateInputfile:
@@ -21,16 +31,10 @@ def create_inputfile(item: UploadInputfile) -> CreateInputfile:
         os.makedirs(REPO_DIR)
     file_path = f"{REPO_DIR}/{item.name}"
 
-    if os.path.exists(file_path):
-        file_name = file_path.split(".")[0]
-        file_exe = file_path.split(".")[1]
-        file_path = f"{file_name}-{id_generator()}.{file_exe}"
-
-    f = open(file_path, "w")
-    f.write(item.content)
-    f.close()
-
-    return CreateInputfile(ok=True, filePath=file_path)
+    if write_file(file_path, item.content):
+        return CreateInputfile(ok=True, filePath=file_path)
+    else:
+        return CreateInputfile(ok=False)
 
 
 def read_files(path: str) -> [FileTypeAndName]:
