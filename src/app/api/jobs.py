@@ -1,7 +1,5 @@
-from fastapi import HTTPException, status, APIRouter
-from typing import Union
+from fastapi import status, APIRouter
 
-# from src.libs.files import create_inputfile
 from app.db.models import SubmitJob
 from app.libs.jobs import create_job
 

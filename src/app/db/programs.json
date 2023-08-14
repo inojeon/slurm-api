@@ -1,0 +1,7 @@
+[
+  {
+    "name": "qe_test",
+    "location": "/PROGRAMS/qe_demo",
+    "infoJsonPath": "info.json"
+  }
+]
