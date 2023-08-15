@@ -6,7 +6,7 @@ from app.db.models import (
     FileTypeAndName,
 )
 import os, string, random
-from app.db.config import REPO_DIR
+from app.db.config import REPO_DIR, JOBS_DIR
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -74,6 +74,6 @@ def read_inputfile(inputfileName: str) -> LoadFile:
     return read_file(inputfile_path)
 
 
-def read_resultfile(resultfileName: str, jobID: str) -> LoadFile:
-    resultfile_path = f"{JOBS_DIR}/{jobID}/{resultfileName}"
+def read_resultfile(resultfileName: str, jobName: str) -> LoadFile:
+    resultfile_path = f"{JOBS_DIR}/{jobName}/{resultfileName}"
     return read_file(resultfile_path)

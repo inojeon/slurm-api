@@ -1,6 +1,7 @@
 from typing import List, Union, Optional
 from enum import Enum
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class CreateInputfile(BaseModel):
@@ -30,6 +31,20 @@ class LoadFile(BaseModel):
     filePath: Optional[str] = None
     content: Optional[str] = None
     message: Optional[float] = None
+
+
+class JobInfoDB(BaseModel):
+    jobName: str
+    jobId: int
+    status: str
+    jobDir: str
+    startDate: Optional[datetime] = datetime.today()
+    endDate: Optional[datetime] = None
+
+
+class JobInfoDBTable(BaseModel):
+    List[Union[JobInfoDB, None]]
+    # List(Union[JobInfoDB, None])
 
 
 class CreatJob(BaseModel):
