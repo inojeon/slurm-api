@@ -17,10 +17,6 @@ if os.path.exists(JOBS_DB_PATH):
         json_datas = json.load(file)
         for data in json_datas:
             fake_job_db.append(JobInfoDB(**data))
-        # fake_job_db = JobInfoDBTable(json.load(file))
-# ProgramDetail(**json.load(file))
-
-# fake_job_db: JobInfoDBTable = []
 
 
 def create_job_dir(jobName: str) -> str:
@@ -39,48 +35,55 @@ def insert_job_into_fake_db(newJob: JobInfoDB) -> bool:
 
 
 def read_job_info_fake_db(jobId: int) -> Union[JobInfoDB, None]:
+    update_job_status(jobId)
     for job in fake_job_db:
         if job.jobId == jobId:
             return job
     return None
 
 
-def insert_job_into_json_db(newJob: JobInfoDB) -> bool:
-    import json
-
-    JOBS_DB_PATH = f"{os.getcwd()}/app/db/jobs.json"
-
-    if os.path.exists(JOBS_DB_PATH):
-        with open(JOBS_DB_PATH, "r") as file:
-            jsonData = json.load(file)
-    else:
-        jsonData: JobInfoDBTable = []
-    jsonData.append(newJob)
-
-    with open(JOBS_DB_PATH, "w") as file:
-        file.write(json.dumps(jsonable_encoder(jsonData), indent=2))
-
-    return True
-
-
-def read_job_info(jobId: int) -> Union[JobInfoDB, None]:
-    print(jobId)
-    if not os.path.exists(JOBS_DB_PATH):
-        return None
-
-    with open(JOBS_DB_PATH, "r") as file:
-        jsonData = json.load(file)
-
-    for job in jsonData:
-        if job["jobId"] == jobId:
-            return job
-    return None
-    # print(jsonData)
-
-
 def save_fake_db_to_json() -> bool:
     with open(JOBS_DB_PATH, "w") as file:
         file.write(json.dumps(jsonable_encoder(fake_job_db), indent=2))
+
+
+def find_jobName(jobId: int):
+    for job in fake_job_db:
+        if job.jobId == jobId:
+            return job.jobName
+    return None
+
+
+def find_job_dir(jobId: int):
+    for job in fake_job_db:
+        if job.jobId == jobId:
+            return job.jobDir
+    return None
+
+
+def check_job_status(jobId: int):
+    for job in fake_job_db:
+        if job.jobId == jobId:
+            return job.status
+    return None
+
+
+def update_job_status(jobId: int):
+    scontrol_result = (
+        os.popen(f"scontrol show job {jobId} | grep JobState").read().strip()
+    )
+
+    if len(scontrol_result) == 0:
+        return False
+
+    job_status = scontrol_result.split(" ")[0].split("JobState=")[1]
+
+    for index, item in enumerate(fake_job_db):
+        if item.jobId == jobId:
+            if fake_job_db[index].status != job_status:
+                fake_job_db[index].status = job_status
+
+    return True
 
 
 def create_job(jobInfo: SubmitJob) -> CreatJob:
@@ -118,3 +121,17 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
     print(saveResult)
 
     return CreatJob(ok=True, slurmJobId=slurmJobId)
+
+
+def update_log_data(jobId: int, endline: int = 1):
+    JOB_LOG_PATH = f"{find_job_dir(int(jobId))}/std.out"
+    total_len = sum(1 for _ in open(JOB_LOG_PATH))
+    if total_len == endline:
+        return {"ok": False}
+
+    result = ""
+    with open(JOB_LOG_PATH, "r") as file:
+        print(f"total_len : {total_len}")
+        for line in file.readlines()[endline:]:
+            result += line.replace("\n", "</br>")
+        return {"ok": True, "endline": total_len, "datas": result}

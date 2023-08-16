@@ -2,7 +2,7 @@ from fastapi import status, APIRouter, WebSocket, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 
 from app.db.models import SubmitJob
-from app.libs.jobs import create_job, read_job_info_fake_db
+from app.libs.jobs import create_job, read_job_info_fake_db, update_log_data
 
 import asyncio
 from pathlib import Path
@@ -60,11 +60,14 @@ async def websocket_endpoint_log(websocket: WebSocket, jobId: str) -> None:
         websocket (WebSocket): WebSocket request from client.
     """
     await websocket.accept()
+    endline = 0
     try:
         while True:
             await asyncio.sleep(1)
-            logs = "test"
-            await websocket.send_text(logs)
+            resultlogs = update_log_data(jobId, endline)
+            endline = resultlogs["endline"]
+            if resultlogs["ok"]:
+                await websocket.send_text(resultlogs["datas"])
     except Exception as e:
         print(e)
     finally:

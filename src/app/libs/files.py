@@ -52,9 +52,12 @@ def read_inputfiles():
     return LoadFileList(ok=True, fileLists=read_files(REPO_DIR), filePath=REPO_DIR)
 
 
-def read_resultfiles(jobID: str):
+def read_resultfiles(jobId: str):
+    from app.libs.jobs import find_jobName
+
+    jobName = find_jobName(int(jobId))
     return LoadFileList(
-        ok=True, fileLists=read_files(f"{JOBS_DIR}/{jobID}"), filePath=REPO_DIR
+        ok=True, fileLists=read_files(f"{JOBS_DIR}/{jobName}"), filePath=JOBS_DIR
     )
 
 
@@ -74,6 +77,9 @@ def read_inputfile(inputfileName: str) -> LoadFile:
     return read_file(inputfile_path)
 
 
-def read_resultfile(resultfileName: str, jobName: str) -> LoadFile:
+def read_resultfile(jobId: str, resultfileName: str) -> LoadFile:
+    from app.libs.jobs import find_jobName
+
+    jobName = find_jobName(int(jobId))
     resultfile_path = f"{JOBS_DIR}/{jobName}/{resultfileName}"
     return read_file(resultfile_path)
