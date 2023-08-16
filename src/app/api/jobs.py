@@ -1,8 +1,8 @@
-from fastapi import status, APIRouter, WebSocket, Request
+from fastapi import status, APIRouter, WebSocket, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 
 from app.db.models import SubmitJob
-from app.libs.jobs import create_job
+from app.libs.jobs import create_job, read_job_info_fake_db
 
 import asyncio
 from pathlib import Path
@@ -20,8 +20,21 @@ async def submit_job(item: SubmitJob):
     return create_job(item)
 
 
+@router.get("/jobs/{jobId}", status_code=status.HTTP_200_OK)
+async def get_job_info(jobId: str):
+    result = read_job_info_fake_db(int(jobId))
+    # result = read_job_info(int(jobId))
+
+    if result:
+        return result
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+
 @router.get("/logtest")
-async def get(request: Request):
+async def get_log_test_page(request: Request):
     """Log file viewer
 
     Args:
