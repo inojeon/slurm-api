@@ -19,8 +19,8 @@ async def create_upload_file(item: Union[UploadInputfile, None] = None):
 
 
 @router.get("/inputfiles", status_code=status.HTTP_200_OK)
-async def read_input_files():
-    result = read_inputfiles()
+async def read_input_files(exe: Union[str, None] = None):
+    result = read_inputfiles(exe)
     if not result.ok:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=result.message

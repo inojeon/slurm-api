@@ -66,7 +66,8 @@ async def websocket_endpoint_log(websocket: WebSocket, jobId: str) -> None:
             await asyncio.sleep(1)
             resultlogs = update_log_data(jobId, endline)
             endline = resultlogs["endline"]
-            if resultlogs["ok"]:
+            print(endline)
+            if resultlogs["ok"] and resultlogs["datas"]:
                 await websocket.send_text(resultlogs["datas"])
     except Exception as e:
         print(e)

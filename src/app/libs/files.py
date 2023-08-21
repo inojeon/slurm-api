@@ -7,6 +7,7 @@ from app.db.models import (
 )
 import os, string, random
 from app.db.config import REPO_DIR, JOBS_DIR
+from typing import Union
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -37,19 +38,31 @@ def create_inputfile(item: UploadInputfile) -> CreateInputfile:
         return CreateInputfile(ok=False)
 
 
-def read_files(path: str) -> [FileTypeAndName]:
+def read_files(path: str, exe: Union[str, None] = None) -> [FileTypeAndName]:
     result = []
     for file in os.listdir(path):
         d = os.path.join(path, file)
         if os.path.isdir(d):
             result.append(FileTypeAndName(name=file, type="dir"))
         else:
-            result.append(FileTypeAndName(name=file, type="file"))
+            if exe:
+                if file.split(".")[1] == exe:
+                    result.append(FileTypeAndName(name=file, type="file"))
+            else:
+                result.append(FileTypeAndName(name=file, type="file"))
     return result
 
 
-def read_inputfiles():
-    return LoadFileList(ok=True, fileLists=read_files(REPO_DIR), filePath=REPO_DIR)
+def read_inputfiles(exe: Union[str, None] = None):
+    result = read_files(REPO_DIR, exe)
+    if len(result) == 0:
+        return LoadFileList(
+            ok=True,
+            filePath=REPO_DIR,
+            message="No files",
+        )
+
+    return LoadFileList(ok=True, fileLists=read_files(REPO_DIR, exe), filePath=REPO_DIR)
 
 
 def read_resultfiles(jobId: str):

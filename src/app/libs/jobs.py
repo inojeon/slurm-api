@@ -116,7 +116,6 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
     )
 
     saveResult = insert_job_into_fake_db(newJob)
-    # saveResult = insert_job_into_json_db(newJob)
 
     print(saveResult)
 
@@ -127,11 +126,18 @@ def update_log_data(jobId: int, endline: int = 1):
     JOB_LOG_PATH = f"{find_job_dir(int(jobId))}/std.out"
     total_len = sum(1 for _ in open(JOB_LOG_PATH))
     if total_len == endline:
-        return {"ok": False}
+        scontrol_result = (
+            os.popen(f"scontrol show job {jobId} | grep JobState").read().strip()
+        )
+        job_status = scontrol_result.split(" ")[0].split("JobState=")[1]
+
+        if job_status == "RUNNING":
+            return {"ok": True, "endline": total_len, "datas": None}
+        else:
+            return {"ok": False}
 
     result = ""
     with open(JOB_LOG_PATH, "r") as file:
-        print(f"total_len : {total_len}")
         for line in file.readlines()[endline:]:
             result += line.replace("\n", "</br>")
         return {"ok": True, "endline": total_len, "datas": result}

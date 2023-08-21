@@ -23,14 +23,14 @@ class LoadFileList(BaseModel):
     ok: bool
     filePath: Optional[str] = None
     fileLists: Optional[List[FileTypeAndName]] = None
-    message: Optional[float] = None
+    message: Optional[str] = None
 
 
 class LoadFile(BaseModel):
     ok: bool
     filePath: Optional[str] = None
     content: Optional[str] = None
-    message: Optional[float] = None
+    message: Optional[str] = None
 
 
 class JobInfoDB(BaseModel):
