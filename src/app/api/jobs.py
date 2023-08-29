@@ -2,7 +2,12 @@ from fastapi import status, APIRouter, WebSocket, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 
 from app.db.models import SubmitJob
-from app.libs.jobs import create_job, read_job_info_fake_db, update_log_data
+from app.libs.jobs import (
+    create_job,
+    read_job_info_fake_db,
+    update_log_data,
+    read_jobs_info_fake_db,
+)
 
 import asyncio
 from pathlib import Path
@@ -18,6 +23,11 @@ templates = Jinja2Templates(directory=str(Path(base_dir, "templates")))
 @router.post("/jobs", status_code=status.HTTP_201_CREATED)
 async def submit_job(item: SubmitJob):
     return create_job(item)
+
+
+@router.get("/jobs")
+async def get_jobs(limit: int = 5):
+    return read_jobs_info_fake_db(int(limit))
 
 
 @router.get("/jobs/{jobId}", status_code=status.HTTP_200_OK)

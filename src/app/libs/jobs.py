@@ -8,7 +8,7 @@ from app.db.config import JOBS_DIR
 from app.libs.programs import load_program_info, creat_job_script
 from app.libs.files import id_generator, write_file
 
-JOBS_DB_PATH = f"{os.getcwd()}/app/db/jobs.json"
+JOBS_DB_PATH = f"{os.getcwd()}/src/app/db/jobs.json"
 
 fake_job_db: JobInfoDBTable = []
 
@@ -32,6 +32,12 @@ def create_job_dir(jobName: str) -> str:
 def insert_job_into_fake_db(newJob: JobInfoDB) -> bool:
     fake_job_db.append(newJob)
     return True
+
+
+def read_jobs_info_fake_db(limit: int = 5):
+    return fake_job_db[len(fake_job_db) - limit : :][::-1]
+    # print(fake_job_db)
+    # return fake_job_db
 
 
 def read_job_info_fake_db(jobId: int) -> Union[JobInfoDB, None]:
