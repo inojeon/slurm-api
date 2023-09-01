@@ -49,7 +49,8 @@ class JobInfoDBTable(BaseModel):
 
 class CreatJob(BaseModel):
     ok: bool
-    slurmJobId: Union[int, None]
+    slurmJobId: Optional[int] = None
+    jabName: Optional[str] = None
 
 
 class UploadInputfile(BaseModel):

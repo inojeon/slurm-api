@@ -7,6 +7,7 @@ from app.libs.jobs import (
     read_job_info_fake_db,
     update_log_data,
     read_jobs_info_fake_db,
+    read_detail_job_unfo_fake_db,
 )
 
 import asyncio
@@ -16,7 +17,6 @@ router = APIRouter()
 
 # set path and log file name
 base_dir = Path(__file__).resolve().parent
-
 templates = Jinja2Templates(directory=str(Path(base_dir, "templates")))
 
 
@@ -30,11 +30,14 @@ async def get_jobs(limit: int = 5):
     return read_jobs_info_fake_db(int(limit))
 
 
+@router.get("/detailjob/{jobName}", status_code=status.HTTP_200_OK)
+async def get_job_detail_info(jobName: str):
+    return read_detail_job_unfo_fake_db(jobName)
+
+
 @router.get("/jobs/{jobId}", status_code=status.HTTP_200_OK)
 async def get_job_info(jobId: str):
     result = read_job_info_fake_db(int(jobId))
-    # result = read_job_info(int(jobId))
-
     if result:
         return result
     else:

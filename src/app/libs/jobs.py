@@ -19,6 +19,15 @@ if os.path.exists(JOBS_DB_PATH):
             fake_job_db.append(JobInfoDB(**data))
 
 
+def get_job_unique_jobname(jobName: str) -> str:
+    job_dir_path = f"{JOBS_DIR}/{jobName.replace(' ','-')}"
+
+    if os.path.exists(job_dir_path):
+        return f"{jobName}-{id_generator(4)}"
+    else:
+        return jobName
+
+
 def create_job_dir(jobName: str) -> str:
     job_dir_path = f"{JOBS_DIR}/{jobName.replace(' ','-')}"
 
@@ -38,6 +47,21 @@ def read_jobs_info_fake_db(limit: int = 5):
     return fake_job_db[len(fake_job_db) - limit : :][::-1]
     # print(fake_job_db)
     # return fake_job_db
+
+
+def get_jobId_into_jobName(jobName: str):
+    for job in fake_job_db:
+        if job.jobName == jobName:
+            return job.jobId
+
+
+def read_detail_job_unfo_fake_db(jobName: str):
+    jobId = get_jobId_into_jobName(jobName)
+    update_job_status(jobId)
+    for job in fake_job_db:
+        if job.jobId == jobId:
+            return job
+    return None
 
 
 def read_job_info_fake_db(jobId: int) -> Union[JobInfoDB, None]:
@@ -97,8 +121,9 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
     if not program:
         return CreatJob(ok=False)
 
+    jobName = get_job_unique_jobname(jobInfo.jobName)
     # create job Dir
-    job_dir_path = create_job_dir(jobInfo.jobName)
+    job_dir_path = create_job_dir(jobName)
 
     # Create slurm job script
     script_template = creat_job_script(program, jobInfo)
@@ -118,14 +143,14 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
 
     # slurmJobId = 11
     newJob = JobInfoDB(
-        jobName=jobInfo.jobName, jobDir=job_dir_path, status="PENDING", jobId=slurmJobId
+        jobName=jobName, jobDir=job_dir_path, status="PENDING", jobId=slurmJobId
     )
 
     saveResult = insert_job_into_fake_db(newJob)
 
     print(saveResult)
 
-    return CreatJob(ok=True, slurmJobId=slurmJobId)
+    return CreatJob(ok=True, slurmJobId=slurmJobId, jobName=jobName)
 
 
 def update_log_data(jobId: int, endline: int = 1):

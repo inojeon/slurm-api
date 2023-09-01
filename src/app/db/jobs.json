@@ -10,7 +10,7 @@
   {
     "jobName": "test10",
     "jobId": 2,
-    "status": "PENDING",
+    "status": "FAILED",
     "jobDir": "/home/admin/jobs/test-TCJ1",
     "startDate": "2023-08-15T15:33:37.035695",
     "endDate": null
@@ -189,6 +189,110 @@
     "status": "PENDING",
     "jobDir": "/home/admin/jobs/newJob",
     "startDate": "2023-08-17T00:59:40.206954",
+    "endDate": null
+  },
+  {
+    "jobName": "test1",
+    "jobId": 2,
+    "status": "FAILED",
+    "jobDir": "/home/admin/jobs/test1",
+    "startDate": "2023-08-30T14:48:02.744465",
+    "endDate": null
+  },
+  {
+    "jobName": "test1",
+    "jobId": 4,
+    "status": "COMPLETED",
+    "jobDir": "/home/admin/jobs/test1-4JF9",
+    "startDate": "2023-08-30T14:48:02.744465",
+    "endDate": null
+  },
+  {
+    "jobName": "test1",
+    "jobId": 5,
+    "status": "COMPLETED",
+    "jobDir": "/home/admin/jobs/test1-18S4",
+    "startDate": "2023-08-30T14:48:02.744465",
+    "endDate": null
+  },
+  {
+    "jobName": "test1",
+    "jobId": 6,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-M9SD",
+    "startDate": "2023-08-30T14:48:02.744465",
+    "endDate": null
+  },
+  {
+    "jobName": "test1",
+    "jobId": 7,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-GYXW",
+    "startDate": "2023-08-30T14:48:02.744465",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-GOWX",
+    "jobId": 8,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-GOWX",
+    "startDate": "2023-08-31T01:49:39.200823",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-IF5P",
+    "jobId": 9,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-IF5P",
+    "startDate": "2023-08-31T01:51:03.503854",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-OVI3",
+    "jobId": 10,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-OVI3",
+    "startDate": "2023-08-31T01:51:03.503854",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-LFWN",
+    "jobId": 11,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-LFWN",
+    "startDate": "2023-08-31T01:51:03.503854",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-XY1D",
+    "jobId": 12,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-XY1D",
+    "startDate": "2023-08-31T02:18:18.071526",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-FHKG",
+    "jobId": 13,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-FHKG",
+    "startDate": "2023-08-31T05:10:51.07468",
+    "endDate": null
+  },
+  {
+    "jobName": "test1-3XNC",
+    "jobId": 14,
+    "status": "PENDING",
+    "jobDir": "/home/admin/jobs/test1-3XNC",
+    "startDate": "2023-08-31T05:11:26.725547",
+    "endDate": null
+  },
+  {
+    "jobName": "job",
+    "jobId": 15,
+    "status": "COMPLETED",
+    "jobDir": "/home/admin/jobs/job",
+    "startDate": "2023-08-31T05:11:26.725547",
     "endDate": null
   }
 ]

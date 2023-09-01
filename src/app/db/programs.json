@@ -2,6 +2,8 @@
   {
     "name": "qe_test",
     "location": "/PROGRAMS/qe_demo",
-    "infoJsonPath": "info.json"
+    "infoJsonPath": "setting/info.json",
+    "inputSchemaPath": "setting/inputSchema.json",
+    "inputSamplePath": "setting/inputSample.json"
   }
 ]
