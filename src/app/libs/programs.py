@@ -6,14 +6,14 @@ import json, os
 
 
 def load_programs() -> Union[Programs, None]:
-    PROGRAM_DB_PATH = f"{os.getcwd()}/src/app/db/programs.json"
+    PROGRAM_DB_PATH = f"{os.getcwd()}/app/db/programs.json"
 
     with open(PROGRAM_DB_PATH, "r") as file:
         return json.load(file)
 
 
 def load_program_inputschema(programName: str) -> Union[object, None]:
-    PROGRAM_DB_PATH = f"{os.getcwd()}/src/app/db/programs.json"
+    PROGRAM_DB_PATH = f"{os.getcwd()}/app/db/programs.json"
 
     with open(PROGRAM_DB_PATH, "r") as file:
         programs = json.load(file)
@@ -29,7 +29,7 @@ def load_program_inputschema(programName: str) -> Union[object, None]:
 
 
 def load_program_sampleinput(programName: str) -> Union[object, None]:
-    PROGRAM_DB_PATH = f"{os.getcwd()}/src/app/db/programs.json"
+    PROGRAM_DB_PATH = f"{os.getcwd()}/app/db/programs.json"
 
     with open(PROGRAM_DB_PATH, "r") as file:
         programs = json.load(file)
@@ -45,7 +45,7 @@ def load_program_sampleinput(programName: str) -> Union[object, None]:
 
 
 def load_program_info(programName: str) -> Union[ProgramDetail, None]:
-    PROGRAM_DB_PATH = f"{os.getcwd()}/src/app/db/programs.json"
+    PROGRAM_DB_PATH = f"{os.getcwd()}/app/db/programs.json"
 
     with open(PROGRAM_DB_PATH, "r") as file:
         programs = json.load(file)

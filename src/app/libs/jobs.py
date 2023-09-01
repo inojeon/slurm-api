@@ -8,7 +8,7 @@ from app.db.config import JOBS_DIR
 from app.libs.programs import load_program_info, creat_job_script
 from app.libs.files import id_generator, write_file
 
-JOBS_DB_PATH = f"{os.getcwd()}/src/app/db/jobs.json"
+JOBS_DB_PATH = f"{os.getcwd()}/app/db/jobs.json"
 
 fake_job_db: JobInfoDBTable = []
 
