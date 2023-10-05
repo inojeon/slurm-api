@@ -4,3 +4,5 @@ python-multipart
 Jinja2
 uvicorn[standard]
 gunicorn
+pyyaml
+toml

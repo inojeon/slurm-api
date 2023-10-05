@@ -47,7 +47,7 @@ class JobInfoDBTable(BaseModel):
     # List(Union[JobInfoDB, None])
 
 
-class CreatJob(BaseModel):
+class CreateJob(BaseModel):
     ok: bool
     slurmJobId: Optional[int] = None
     jabName: Optional[str] = None
@@ -75,7 +75,7 @@ class SubmitJob(BaseModel):
 class Program(BaseModel):
     name: str
     location: str
-    infoJsonPath: str
+    settingPath: str
 
 
 class Programs(BaseModel):
@@ -95,6 +95,7 @@ class Slurm(BaseModel):
 class Input(BaseModel):
     option: str
     exec: str
+    sampleInputPath: str
 
 
 class Required(BaseModel):
@@ -104,12 +105,7 @@ class Required(BaseModel):
 class ProgramDetail(BaseModel):
     name: str
     version: str
-    sampleInput: List[SampleInputItem]
     location: str
-    preScript: str
-    postSrcipt: str
+    runScript: str
     slurm: Slurm
-    shell: str
-    mainExe: str
     inputs: List[Input]
-    required: Required

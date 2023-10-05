@@ -1,9 +1,9 @@
 [
   {
     "name": "qe_test",
-    "location": "/PROGRAMS/qe_demo",
-    "infoJsonPath": "setting/info.json",
-    "inputSchemaPath": "setting/inputSchema.json",
-    "inputSamplePath": "setting/inputSample.json"
+    "location": "/EDISON2/solvers/semi/qe_demo/1.0.0",
+    "settingPath": "setting.yaml",
+    "inputSchemaPath": "inputSchema.json",
+    "inputSamplePath": "inputs/input.toml"
   }
 ]

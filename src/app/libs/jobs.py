@@ -2,7 +2,7 @@ import os, json
 from typing import Union
 from fastapi.encoders import jsonable_encoder
 
-from app.db.models import SubmitJob, CreatJob, JobInfoDB, JobInfoDBTable
+from app.db.models import SubmitJob, CreateJob, JobInfoDB, JobInfoDBTable
 from app.db.config import JOBS_DIR
 
 from app.libs.programs import load_program_info, creat_job_script
@@ -116,10 +116,10 @@ def update_job_status(jobId: int):
     return True
 
 
-def create_job(jobInfo: SubmitJob) -> CreatJob:
+def create_job(jobInfo: SubmitJob) -> CreateJob:
     program = load_program_info(jobInfo.programName)
     if not program:
-        return CreatJob(ok=False)
+        return CreateJob(ok=False)
 
     jobName = get_job_unique_jobname(jobInfo.jobName)
     # create job Dir
@@ -129,6 +129,7 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
     script_template = creat_job_script(program, jobInfo)
 
     # Save job script /{jobDir}/batch.sh
+    print(job_dir_path)
     batch_script_path = f"{job_dir_path}/batch.sh"
     write_file(batch_script_path, script_template)
 
@@ -150,7 +151,7 @@ def create_job(jobInfo: SubmitJob) -> CreatJob:
 
     print(saveResult)
 
-    return CreatJob(ok=True, slurmJobId=slurmJobId, jobName=jobName)
+    return CreateJob(ok=True, slurmJobId=slurmJobId, jobName=jobName)
 
 
 def update_log_data(jobId: int, endline: int = 1):

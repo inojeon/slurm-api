@@ -1,3 +1,3 @@
-USER_PROJECT_DIR = "/home/admin"
+USER_PROJECT_DIR = "/EDISON2/home/user"
 REPO_DIR = f"{USER_PROJECT_DIR}/repository"
 JOBS_DIR = f"{USER_PROJECT_DIR}/jobs"
