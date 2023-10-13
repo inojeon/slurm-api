@@ -81,9 +81,12 @@ def creat_job_script(program: ProgramDetail, jobInfo: SubmitJob) -> Union[str, N
             inputStr += f"--inp {inpFileGenResult.filePath} "
 
     tmpScript = program.runScript
+    # print(program.location)
 
     tmpScript = tmpScript.replace("&&PROGRAM_HOME&&", program.location)
     tmpScript = tmpScript.replace("&&inputArgs&&", inputStr)
     script += tmpScript
+
+    # print(script)
 
     return script

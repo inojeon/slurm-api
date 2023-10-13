@@ -121,6 +121,8 @@ def create_job(jobInfo: SubmitJob) -> CreateJob:
     if not program:
         return CreateJob(ok=False)
 
+    # print(program)
+
     jobName = get_job_unique_jobname(jobInfo.jobName)
     # create job Dir
     job_dir_path = create_job_dir(jobName)
@@ -128,8 +130,9 @@ def create_job(jobInfo: SubmitJob) -> CreateJob:
     # Create slurm job script
     script_template = creat_job_script(program, jobInfo)
 
+    # print(script_template)
     # Save job script /{jobDir}/batch.sh
-    print(job_dir_path)
+    # print(job_dir_path)
     batch_script_path = f"{job_dir_path}/batch.sh"
     write_file(batch_script_path, script_template)
 

@@ -5,5 +5,12 @@
     "settingPath": "setting.yaml",
     "inputSchemaPath": "inputSchema.json",
     "inputSamplePath": "inputs/input.toml"
+  },
+  {
+    "name": "qe_dos",
+    "location": "/EDISON2/solvers/semi/qe_dos/1.0.0",
+    "settingPath": "setting.yaml",
+    "inputSchemaPath": "inputSchema.json",
+    "inputSamplePath": "inputs/total.toml"
   }
 ]
